@@ -15,11 +15,11 @@ export default async function BlogPost({ params }: { params: { slug: string } })
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-6">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6 lg:px-8">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold">Yegna Write</span>
           </Link>
-          <nav className="flex gap-8 pr-2">
+          <nav className="flex gap-6 md:gap-8">
             <Link href="/blog" className="text-sm font-medium transition-colors hover:text-primary">
               Blog
             </Link>
@@ -31,7 +31,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
       </header>
 
       <main className="flex-1">
-        <article className="container mx-auto px-4 py-8 max-w-4xl">
+        <article className="container mx-auto px-4 md:px-6 lg:px-8 py-8 max-w-4xl">
           {/* Back to Blog */}
           <Link href="/blog" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -41,6 +41,8 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           {/* Article Header */}
           <header className="mb-8">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">{post.title}</h1>
+
+            {post.subtitle && <p className="text-xl text-muted-foreground mb-6">{post.subtitle}</p>}
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
               <div className="flex items-center">
@@ -55,28 +57,32 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                 <Clock className="mr-2 h-4 w-4" />
                 {post.readTime}
               </div>
+              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                {post.category}
+              </span>
             </div>
 
-            <p className="text-lg text-muted-foreground">{post.excerpt}</p>
+            {post.excerpt && <p className="text-lg text-muted-foreground">{post.excerpt}</p>}
           </header>
 
           {/* Featured Image */}
-          <div className="mb-8">
-            <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center overflow-hidden">
-              {post.featuredImage ? (
+          {post.featuredImage && (
+            <div className="mb-8">
+              <div className="aspect-video w-full rounded-lg overflow-hidden">
                 <img
                   src={`https:${post.featuredImage.fields.file.url}`}
                   alt={post.title}
                   className="w-full h-full object-cover"
                 />
-              ) : (
-                <span className="text-muted-foreground">Featured Image</span>
-              )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Article Content */}
-          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <div
+            className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-em:text-foreground prose-a:text-primary hover:prose-a:text-primary/80"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
 
           {/* Related Posts */}
           {relatedPosts.length > 0 && (
@@ -90,8 +96,12 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                     className="group block p-6 border rounded-lg hover:bg-accent transition-colors"
                   >
                     <h3 className="text-xl font-semibold mb-2 group-hover:text-primary">{relatedPost.title}</h3>
-                    <p className="text-muted-foreground mb-3">{relatedPost.excerpt}</p>
-                    <p className="text-sm text-muted-foreground">By {relatedPost.author}</p>
+                    <p className="text-muted-foreground mb-3 line-clamp-2">{relatedPost.excerpt}</p>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <span>By {relatedPost.author}</span>
+                      <span className="mx-2">•</span>
+                      <span>{relatedPost.publishDate}</span>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -102,7 +112,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
 
       {/* Footer */}
       <footer className="w-full border-t bg-muted/50 py-12">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="space-y-4">
               <Link href="/" className="inline-flex items-center space-x-2">
