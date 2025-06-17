@@ -63,19 +63,11 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           {/* Featured Image */}
           <div className="mb-8">
             <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center overflow-hidden">
-              {post.featuredImage?.fields?.file?.url ? (
+              {post.featuredImage ? (
                 <img
                   src={`https:${post.featuredImage.fields.file.url}`}
                   alt={post.title}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement
-                    target.style.display = "none"
-                    const parent = target.parentElement
-                    if (parent) {
-                      parent.innerHTML = '<span class="text-muted-foreground">Featured Image</span>'
-                    }
-                  }}
                 />
               ) : (
                 <span className="text-muted-foreground">Featured Image</span>
