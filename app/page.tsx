@@ -2,8 +2,11 @@ import Link from "next/link"
 import { ArrowRight, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { getAllBlogPosts } from "@/lib/contentful"
 
-export default function Home() {
+export default async function Home() {
+  const allPosts = await getAllBlogPosts()
+  const latestPosts = allPosts.slice(0, 3) // Get first 3 posts
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -97,71 +100,34 @@ export default function Home() {
               </div>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
-              {/* Blog Post Card 1 */}
-              <Link
-                href="/blog/how-to-apply-scholarships-us"
-                className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-colors hover:bg-accent"
-              >
-                <div className="aspect-video overflow-hidden rounded-md bg-muted">
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                    Featured Image
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-colors hover:bg-accent"
+                >
+                  <div className="aspect-video overflow-hidden rounded-md bg-muted">
+                    {post.featuredImage ? (
+                      <img
+                        src={`https:${post.featuredImage.fields.file.url}`}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
+                        Featured Image
+                      </div>
+                    )}
                   </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-xl font-bold">How to Apply for Scholarships in the US</h3>
-                  <p className="mt-2 text-muted-foreground line-clamp-3">
-                    Learn the step-by-step process to apply for scholarships in American universities and increase your
-                    chances of success.
-                  </p>
-                  <div className="mt-4 flex items-center text-sm">
-                    <span className="font-medium">By Abebe Kebede</span>
+                  <div className="p-4">
+                    <h3 className="text-xl font-bold">{post.title}</h3>
+                    <p className="mt-2 text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                    <div className="mt-4 flex items-center text-sm">
+                      <span className="font-medium">By {post.author}</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-
-              {/* Blog Post Card 2 */}
-              <Link
-                href="/blog/writing-compelling-personal-statement"
-                className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-colors hover:bg-accent"
-              >
-                <div className="aspect-video overflow-hidden rounded-md bg-muted">
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                    Featured Image
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-xl font-bold">Writing a Compelling Personal Statement</h3>
-                  <p className="mt-2 text-muted-foreground line-clamp-3">
-                    Discover the key elements that make a personal statement stand out and capture the attention of
-                    admission officers.
-                  </p>
-                  <div className="mt-4 flex items-center text-sm">
-                    <span className="font-medium">By Sara Haile</span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Blog Post Card 3 */}
-              <Link
-                href="/blog/preparing-toefl-exam"
-                className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-colors hover:bg-accent"
-              >
-                <div className="aspect-video overflow-hidden rounded-md bg-muted">
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                    Featured Image
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="text-xl font-bold">Preparing for the TOEFL Exam</h3>
-                  <p className="mt-2 text-muted-foreground line-clamp-3">
-                    Essential tips and strategies to help you achieve a high score on the TOEFL exam and meet university
-                    requirements.
-                  </p>
-                  <div className="mt-4 flex items-center text-sm">
-                    <span className="font-medium">By Kidist Alemu</span>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

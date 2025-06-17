@@ -1,80 +1,11 @@
 import Link from "next/link"
 import { Calendar, User, Clock, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { getAllBlogPosts, getCategories } from "@/lib/contentful"
 
-// This would typically come from a CMS or database
-const getAllBlogPosts = () => {
-  return [
-    {
-      slug: "how-to-apply-scholarships-us",
-      title: "How to Apply for Scholarships in the US",
-      author: "Abebe Kebede",
-      publishDate: "March 15, 2024",
-      readTime: "8 min read",
-      excerpt:
-        "Learn the step-by-step process to apply for scholarships in American universities and increase your chances of success.",
-      category: "Scholarships",
-    },
-    {
-      slug: "writing-compelling-personal-statement",
-      title: "Writing a Compelling Personal Statement",
-      author: "Sara Haile",
-      publishDate: "March 10, 2024",
-      readTime: "6 min read",
-      excerpt:
-        "Discover the key elements that make a personal statement stand out and capture the attention of admission officers.",
-      category: "Applications",
-    },
-    {
-      slug: "preparing-toefl-exam",
-      title: "Preparing for the TOEFL Exam",
-      author: "Kidist Alemu",
-      publishDate: "March 5, 2024",
-      readTime: "10 min read",
-      excerpt:
-        "Essential tips and strategies to help you achieve a high score on the TOEFL exam and meet university requirements.",
-      category: "Test Prep",
-    },
-    {
-      slug: "study-abroad-budgeting-guide",
-      title: "The Complete Guide to Budgeting for Study Abroad",
-      author: "Abebe Kebede",
-      publishDate: "February 28, 2024",
-      readTime: "12 min read",
-      excerpt:
-        "Learn how to plan and manage your finances for studying abroad, including hidden costs and money-saving tips.",
-      category: "Finance",
-    },
-    {
-      slug: "choosing-right-university",
-      title: "How to Choose the Right University for Your Goals",
-      author: "Sara Haile",
-      publishDate: "February 20, 2024",
-      readTime: "9 min read",
-      excerpt:
-        "A comprehensive guide to researching and selecting universities that align with your academic and career objectives.",
-      category: "University Selection",
-    },
-    {
-      slug: "visa-application-tips",
-      title: "Student Visa Application: Common Mistakes to Avoid",
-      author: "Kidist Alemu",
-      publishDate: "February 15, 2024",
-      readTime: "7 min read",
-      excerpt:
-        "Navigate the student visa application process successfully by avoiding these common pitfalls and mistakes.",
-      category: "Visa",
-    },
-  ]
-}
-
-const getCategories = () => {
-  return ["All", "Scholarships", "Applications", "Test Prep", "Finance", "University Selection", "Visa"]
-}
-
-export default function Blog() {
-  const posts = getAllBlogPosts()
-  const categories = getCategories()
+export default async function Blog() {
+  const posts = await getAllBlogPosts()
+  const categories = await getCategories()
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -147,9 +78,17 @@ export default function Blog() {
                   href={`/blog/${post.slug}`}
                   className="group block space-y-4 rounded-lg border p-6 transition-colors hover:bg-accent"
                 >
-                  {/* Featured Image Placeholder */}
-                  <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center">
-                    <span className="text-muted-foreground text-sm">Featured Image</span>
+                  {/* Featured Image */}
+                  <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center overflow-hidden">
+                    {post.featuredImage ? (
+                      <img
+                        src={`https:${post.featuredImage.fields.file.url}`}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-muted-foreground text-sm">Featured Image</span>
+                    )}
                   </div>
 
                   {/* Category Badge */}
