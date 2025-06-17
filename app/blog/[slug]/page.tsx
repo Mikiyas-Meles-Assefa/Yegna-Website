@@ -84,6 +84,69 @@ export default async function BlogPost({ params }: { params: { slug: string } })
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
+          {/* Author Section - Big and Visible */}
+          <section className="mt-12 mb-16 p-8 bg-muted/30 rounded-xl border">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+              {/* Author Image */}
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-muted border-4 border-background shadow-lg">
+                  {post.authorImage ? (
+                    <img
+                      src={`https:${post.authorImage.fields.file.url}`}
+                      alt={post.author}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                      <User className="w-8 h-8 md:w-12 md:h-12 text-primary/60" />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Author Info */}
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl font-bold mb-2">About {post.author}</h3>
+                {post.authorBio ? (
+                  <p className="text-muted-foreground text-lg leading-relaxed mb-4">{post.authorBio}</p>
+                ) : (
+                  <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+                    {post.author} is a contributor to Yegna Write, sharing insights and experiences to help Ethiopian
+                    students achieve their educational goals.
+                  </p>
+                )}
+
+                {/* Author Stats/Info */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center">
+                    <Calendar className="mr-1 h-4 w-4" />
+                    Published {post.publishDate}
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="mr-1 h-4 w-4" />
+                    {post.readTime}
+                  </div>
+                </div>
+
+                {/* Social Links or Contact (if available) */}
+                <div className="mt-4 flex justify-center md:justify-start gap-3">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    Contact Author
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-muted-foreground border border-muted-foreground/20 rounded-lg hover:bg-accent transition-colors"
+                  >
+                    More Articles
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Related Posts */}
           {relatedPosts.length > 0 && (
             <section className="mt-16 pt-8 border-t">

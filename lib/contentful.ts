@@ -10,6 +10,14 @@ export interface BlogPost {
   title: string
   subtitle: string
   author: string
+  authorBio?: string
+  authorImage?: {
+    fields: {
+      file: {
+        url: string
+      }
+    }
+  }
   publishDate: string
   readTime: string
   excerpt: string
@@ -31,7 +39,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     const entries = await client.getEntries({
       content_type: "pageBlogPost", // This matches your Contentful template
       order: "-fields.publishedDate",
-      include: 2, // Increased to get more nested content
+      include: 3, // Increased to get author details and images
     })
 
     console.log(`Found ${entries.items.length} entries`)
@@ -43,6 +51,8 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
         title: entry.fields.title,
         subtitle: entry.fields.shortDescription || "",
         author: entry.fields.author?.fields?.name || "Yegna Write Team",
+        authorBio: entry.fields.author?.fields?.shortBio || entry.fields.author?.fields?.biography || "",
+        authorImage: entry.fields.author?.fields?.avatar || entry.fields.author?.fields?.image,
         publishDate: new Date(entry.fields.publishedDate).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
@@ -67,7 +77,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       content_type: "pageBlogPost",
       "fields.slug": slug,
       limit: 1,
-      include: 2, // Increased to get more nested content
+      include: 3, // Increased to get author details and images
     })
 
     if (entries.items.length === 0) {
@@ -80,6 +90,8 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       title: entry.fields.title,
       subtitle: entry.fields.shortDescription || "",
       author: entry.fields.author?.fields?.name || "Yegna Write Team",
+      authorBio: entry.fields.author?.fields?.shortBio || entry.fields.author?.fields?.biography || "",
+      authorImage: entry.fields.author?.fields?.avatar || entry.fields.author?.fields?.image,
       publishDate: new Date(entry.fields.publishedDate).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -105,7 +117,7 @@ export async function getRelatedPosts(currentSlug: string, limit = 2): Promise<B
       "fields.slug[ne]": currentSlug,
       limit: limit,
       order: "-fields.publishedDate",
-      include: 1,
+      include: 2,
     })
 
     return entries.items
@@ -115,6 +127,8 @@ export async function getRelatedPosts(currentSlug: string, limit = 2): Promise<B
         title: entry.fields.title,
         subtitle: entry.fields.shortDescription || "",
         author: entry.fields.author?.fields?.name || "Yegna Write Team",
+        authorBio: entry.fields.author?.fields?.shortBio || entry.fields.author?.fields?.biography || "",
+        authorImage: entry.fields.author?.fields?.avatar || entry.fields.author?.fields?.image,
         publishDate: new Date(entry.fields.publishedDate).toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
@@ -257,6 +271,8 @@ function getFallbackBlogPosts(): BlogPost[] {
       title: "How to Apply for Scholarships in the US",
       subtitle: "A comprehensive guide to scholarship applications",
       author: "Abebe Kebede",
+      authorBio:
+        "Scholarship recipient at Harvard University. Specializes in US university applications and scholarship strategies.",
       publishDate: "March 15, 2024",
       readTime: "8 min read",
       excerpt: "Learn the step-by-step process to apply for scholarships in American universities.",
