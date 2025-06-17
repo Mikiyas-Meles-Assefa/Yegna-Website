@@ -71,64 +71,84 @@ export default async function Blog() {
         {/* Blog Posts Grid */}
         <section className="w-full py-12">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group block space-y-4 rounded-lg border p-6 transition-colors hover:bg-accent"
-                >
-                  {/* Featured Image */}
-                  <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center overflow-hidden">
-                    {post.featuredImage ? (
-                      <img
-                        src={`https:${post.featuredImage.fields.file.url}`}
-                        alt={post.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-muted-foreground text-sm">Featured Image</span>
-                    )}
-                  </div>
-
-                  {/* Category Badge */}
-                  <div className="flex items-center justify-between">
-                    <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                      {post.category}
-                    </span>
-                  </div>
-
-                  {/* Post Title */}
-                  <h2 className="text-xl font-bold group-hover:text-primary transition-colors">{post.title}</h2>
-
-                  {/* Post Excerpt */}
-                  <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
-
-                  {/* Post Meta */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                      <User className="mr-1 h-3 w-3" />
-                      {post.author}
+            {posts.length > 0 ? (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {posts.map((post) => (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="group block space-y-4 rounded-lg border p-6 transition-colors hover:bg-accent"
+                  >
+                    {/* Featured Image */}
+                    <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center overflow-hidden">
+                      {post.featuredImage?.fields?.file?.url ? (
+                        <img
+                          src={`https:${post.featuredImage.fields.file.url}`}
+                          alt={post.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.style.display = "none"
+                            const parent = target.parentElement
+                            if (parent) {
+                              parent.innerHTML = '<span class="text-muted-foreground text-sm">Featured Image</span>'
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span className="text-muted-foreground text-sm">Featured Image</span>
+                      )}
                     </div>
-                    <div className="flex items-center">
-                      <Calendar className="mr-1 h-3 w-3" />
-                      {post.publishDate}
+
+                    {/* Category Badge */}
+                    <div className="flex items-center justify-between">
+                      <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                        {post.category}
+                      </span>
                     </div>
-                    <div className="flex items-center">
-                      <Clock className="mr-1 h-3 w-3" />
-                      {post.readTime}
+
+                    {/* Post Title */}
+                    <h2 className="text-xl font-bold group-hover:text-primary transition-colors">{post.title}</h2>
+
+                    {/* Post Excerpt */}
+                    <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+
+                    {/* Post Meta */}
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center">
+                        <User className="mr-1 h-3 w-3" />
+                        {post.author}
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="mr-1 h-3 w-3" />
+                        {post.publishDate}
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="mr-1 h-3 w-3" />
+                        {post.readTime}
+                      </div>
                     </div>
-                  </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <h3 className="text-xl font-semibold mb-2">No blog posts found</h3>
+                <p className="text-muted-foreground mb-4">We're working on adding content. Check back soon!</p>
+                <Link href="/debug" className="text-primary hover:underline">
+                  Check connection status
                 </Link>
-              ))}
-            </div>
+              </div>
+            )}
 
             {/* Load More Button */}
-            <div className="flex justify-center mt-12">
-              <button className="px-6 py-2 border rounded-lg hover:bg-accent transition-colors">
-                Load More Articles
-              </button>
-            </div>
+            {posts.length > 0 && (
+              <div className="flex justify-center mt-12">
+                <button className="px-6 py-2 border rounded-lg hover:bg-accent transition-colors">
+                  Load More Articles
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

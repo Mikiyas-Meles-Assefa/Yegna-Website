@@ -7,6 +7,7 @@ import { getAllBlogPosts } from "@/lib/contentful"
 export default async function Home() {
   const allPosts = await getAllBlogPosts()
   const latestPosts = allPosts.slice(0, 3) // Get first 3 posts
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -66,8 +67,7 @@ export default async function Home() {
               <div className="flex justify-center">
                 <div className="relative w-full max-w-md aspect-[4/3] overflow-hidden rounded-xl bg-muted">
                   <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                    Founders Photo
-                  </div>
+                    Photo
                 </div>
               </div>
               <div className="space-y-4">
@@ -106,17 +106,23 @@ export default async function Home() {
                   href={`/blog/${post.slug}`}
                   className="group relative overflow-hidden rounded-lg border bg-background p-2 transition-colors hover:bg-accent"
                 >
-                  <div className="aspect-video overflow-hidden rounded-md bg-muted">
-                    {post.featuredImage ? (
+                  <div className="aspect-video overflow-hidden rounded-md bg-muted flex items-center justify-center">
+                    {post.featuredImage?.fields?.file?.url ? (
                       <img
                         src={`https:${post.featuredImage.fields.file.url}`}
                         alt={post.title}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.style.display = "none"
+                          const parent = target.parentElement
+                          if (parent) {
+                            parent.innerHTML = '<span class="text-muted-foreground text-sm">Featured Image</span>'
+                          }
+                        }}
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                        Featured Image
-                      </div>
+                      <span className="text-muted-foreground text-sm">Featured Image</span>
                     )}
                   </div>
                   <div className="p-4">
@@ -197,7 +203,7 @@ export default async function Home() {
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground"
                 >
-                  <svg
+                  <svg className="border-dotted" className="border-dotted"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
