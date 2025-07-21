@@ -114,7 +114,7 @@ export default function Services() {
                   </div>
 
                   <Button asChild className="w-full">
-                    <Link href="/services/african-leadership-academy">
+                    <Link href="/services/african-leadership-academy" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -244,7 +244,7 @@ export default function Services() {
                   </div>
 
                   <Button asChild className="w-full">
-                    <Link href="/services/us-undergraduate">
+                    <Link href="/services/us-undergraduate" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

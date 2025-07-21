@@ -186,8 +186,8 @@ export default function USUndergraduateServices() {
 
             <Tabs defaultValue="packages" className="w-full" >
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="individual">Individual Services</TabsTrigger>
-                <TabsTrigger value="packages">Packages & Bundles</TabsTrigger>
+                <TabsTrigger value="individual" className="data-[state=active]:bg-black data-[state=active]:text-white">Individual Services</TabsTrigger>
+                <TabsTrigger value="packages" className="data-[state=active]:bg-black data-[state=active]:text-white">Packages & Bundles</TabsTrigger>
               </TabsList>
 
               <TabsContent value="individual" className="mt-8">

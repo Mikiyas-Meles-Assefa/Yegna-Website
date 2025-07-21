@@ -272,9 +272,9 @@ export default function AfricanLeadershipAcademy() {
 
             <Tabs defaultValue="writing" className="w-full">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="writing">🟡 Writing</TabsTrigger>
-                <TabsTrigger value="editing">🔵 Editing</TabsTrigger>
-                <TabsTrigger value="review">🟢 Review</TabsTrigger>
+                <TabsTrigger value="writing" className="data-[state=active]:bg-black data-[state=active]:text-white">🟡 Writing</TabsTrigger>
+                <TabsTrigger value="editing" className="data-[state=active]:bg-black data-[state=active]:text-white">🔵 Editing</TabsTrigger>
+                <TabsTrigger value="review" className="data-[state=active]:bg-black data-[state=active]:text-white">🟢 Review</TabsTrigger>
               </TabsList>
 
               <TabsContent value="writing" className="mt-8" id = "pricing">
