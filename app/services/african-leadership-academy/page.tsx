@@ -91,8 +91,11 @@ export default function AfricanLeadershipAcademy() {
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild>
-                    <Link href="/contact">Need Essay Support?</Link>
+                  <Button variant="outline" size="lg" onClick={() => {
+                    const target = document.getElementById("pricing-section");
+                    target?.scrollIntoView({ behavior: "smooth" });
+                  }}>
+                    Need Essay Support?
                   </Button>
                 </div>
               </div>
@@ -261,7 +264,7 @@ export default function AfricanLeadershipAcademy() {
           </section>
 
           {/* Pricing Section */}
-          <section className="mb-12">
+          <section id="pricing-section" className="mb-12">
             <h2 className="text-3xl font-bold mb-6">Simple, Affordable Packages</h2>
             <p className="text-lg text-muted-foreground mb-8">
               💡 Choose a full package or get help with just one section.
@@ -274,7 +277,7 @@ export default function AfricanLeadershipAcademy() {
                 <TabsTrigger value="review">🟢 Review</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="writing" className="mt-8">
+              <TabsContent value="writing" className="mt-8" id = "pricing">
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                   <Card>
                     <CardHeader>
@@ -437,8 +440,10 @@ export default function AfricanLeadershipAcademy() {
               your essays reflect your voice and potential.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link href="/contact">💬 Message Yegna Write Now</Link>
+              <Button size="lg" asChild className="bg-black text-white hover:bg-black/90">
+                <Link href="https://t.me/yegnawriters" target="_blank" rel="noopener noreferrer">
+                  💬 Message Yegna Write Now
+                </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link

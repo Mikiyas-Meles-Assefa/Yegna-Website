@@ -82,7 +82,7 @@ export default function USUndergraduateServices() {
             <div className="grid gap-6 md:grid-cols-2 items-center mb-8">
               <div>
                 <p className="text-lg text-muted-foreground mb-4">
-                  Navigating the US college application process can be complex. Yegna Write provides tailored guidance
+                  Navigating the US college application process can be overwhelming. Yegna Write provides tailored guidance
                   and expert support to help Ethiopian students stand out and secure admissions to top universities.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -98,10 +98,17 @@ export default function USUndergraduateServices() {
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
-                    <Link href="/contact" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-                      Need Application Support?
-                    </Link>
-                  </Button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("pricing-section");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    Need Application Support?
+                  </button>
+                </Button>
+
                 </div>
               </div>
               <div className="bg-muted/50 p-6 rounded-lg">
@@ -154,7 +161,7 @@ export default function USUndergraduateServices() {
                   </li>
                   <li className="flex items-center text-sm">
                     <Clock className="h-4 w-4 text-orange-500 mr-2" />
-                    Navigating complex financial aid forms (CSS Profile)
+                    Navigating financial aid forms (CSS Profile/ISFAA)
                   </li>
                   <li className="flex items-center text-sm">
                     <Clock className="h-4 w-4 text-orange-500 mr-2" />
@@ -170,14 +177,14 @@ export default function USUndergraduateServices() {
           </section>
 
           {/* Our Services */}
-          <section className="mb-12">
+          <section id="pricing-section" className="mb-12">
             <h2 className="text-3xl font-bold mb-6">Yegna Write: US Application Support</h2>
             <p className="text-lg text-muted-foreground mb-8">
               We offer comprehensive support, from initial college list creation to final essay polishing, ensuring your
               application truly shines.
             </p>
 
-            <Tabs defaultValue="individual" className="w-full">
+            <Tabs defaultValue="packages" className="w-full" >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="individual">Individual Services</TabsTrigger>
                 <TabsTrigger value="packages">Packages & Bundles</TabsTrigger>
@@ -392,8 +399,8 @@ export default function USUndergraduateServices() {
               application that opens doors to your future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link href="/contact" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+              <Button size="lg" asChild className="bg-black text-white hover:bg-black/90">
+                <Link href="https://t.me/yegnawriters" target="_blank" rel="noopener noreferrer">
                   💬 Message Yegna Write Now
                 </Link>
               </Button>
