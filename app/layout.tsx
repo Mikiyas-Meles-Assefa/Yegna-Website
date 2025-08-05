@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Yegna Write',
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <Suspense fallback={null}>
+          {children}
+        </Suspense>
         <Analytics />
       </body>
     </html>
